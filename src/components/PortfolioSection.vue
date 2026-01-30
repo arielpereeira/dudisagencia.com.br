@@ -23,16 +23,19 @@
                   <a href="#" class="btn btn-light btn-sm">Ver Projeto</a>
                 </div>
               </div>
-              <div class="placeholder-image" :style="{ background: project.color }">
-                <span class="project-number">#{{ index + 1 }}</span>
+              <img :src="project.image" :alt="project.title" class="card-image" />
+              <div class="image-title">
+                <h4>{{ project.title }}</h4>
               </div>
             </div>
             <div class="portfolio-info">
-              <h4>{{ project.title }}</h4>
               <p>{{ project.description }}</p>
-              <div class="portfolio-tags">
-                <span v-for="(tag, i) in project.tags" :key="i" class="tag">{{ tag }}</span>
-              </div>
+              <a :href="project.link" class="btn-view-project">
+                Ver Projeto
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                </svg>
+              </a>
             </div>
           </div>
         </div>
@@ -46,8 +49,8 @@ interface Project {
   title: string
   category: string
   description: string
-  tags: string[]
-  color: string
+  image: string
+  link: string
 }
 
 const projects: Project[] = [
@@ -55,43 +58,43 @@ const projects: Project[] = [
     title: 'Loja Fashion',
     category: 'E-commerce',
     description: 'E-commerce completo com integração de pagamentos e gestão.',
-    tags: ['Vue.js', 'Node.js', 'Stripe'],
-    color: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop',
+    link: '#'
   },
   {
     title: 'App Fitness',
     category: 'Mobile App',
     description: 'Aplicativo de treinos e acompanhamento nutricional.',
-    tags: ['React Native', 'Firebase'],
-    color: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'
+    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=600&fit=crop',
+    link: '#'
   },
   {
     title: 'Site Corporativo',
     category: 'Website',
     description: 'Website institucional com CMS personalizado.',
-    tags: ['WordPress', 'PHP', 'MySQL'],
-    color: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop',
+    link: '#'
   },
   {
     title: 'Dashboard Analytics',
     category: 'Web App',
     description: 'Painel administrativo com visualização de dados em tempo real.',
-    tags: ['React', 'D3.js', 'Node.js'],
-    color: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)'
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop',
+    link: '#'
   },
   {
     title: 'Marketplace',
     category: 'Platform',
     description: 'Plataforma de marketplace multi-vendedores.',
-    tags: ['Vue.js', 'Laravel', 'Redis'],
-    color: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop',
+    link: '#'
   },
   {
     title: 'SaaS Platform',
     category: 'Web App',
     description: 'Plataforma SaaS para gestão de projetos.',
-    tags: ['Angular', 'NestJS', 'PostgreSQL'],
-    color: 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)'
+    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop',
+    link: '#'
   }
 ]
 </script>
@@ -139,23 +142,44 @@ const projects: Project[] = [
   height: 250px;
 }
 
-.placeholder-image {
+.card-image {
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  object-fit: cover;
   transition: transform 0.4s ease;
 }
 
-.portfolio-card:hover .placeholder-image {
+.portfolio-card:hover .card-image {
   transform: scale(1.1);
 }
 
-.project-number {
-  font-size: 4rem;
+.image-title {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 0.7rem 1.3rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.portfolio-card:hover .image-title {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(99, 102, 241, 0.3);
+}
+
+.image-title h4 {
+  font-size: 1rem;
   font-weight: 800;
-  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+  text-transform: uppercase;
 }
 
 .image-overlay {
@@ -200,16 +224,6 @@ const projects: Project[] = [
   flex-direction: column;
 }
 
-.portfolio-info h4 {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 0.5rem;
-  min-height: 2.6rem;
-  display: flex;
-  align-items: center;
-}
-
 .portfolio-info p {
   color: #64748b;
   margin-bottom: 1rem;
@@ -217,19 +231,37 @@ const projects: Project[] = [
   min-height: 3rem;
 }
 
-.portfolio-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+.btn-view-project {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  padding: 0.4rem 0.9rem;
+  border-radius: 18px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.75rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  margin-top: auto;
+  align-self: flex-start;
+  white-space: nowrap;
 }
 
-.tag {
-  background: rgba(99, 102, 241, 0.1);
-  color: #6366f1;
-  padding: 0.3rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 500;
+.btn-view-project:hover {
+  transform: translateX(5px);
+  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+  color: white;
+}
+
+.btn-view-project svg {
+  transition: transform 0.3s ease;
+}
+
+.btn-view-project:hover svg {
+  transform: translateX(3px);
 }
 
 @keyframes fadeInUp {

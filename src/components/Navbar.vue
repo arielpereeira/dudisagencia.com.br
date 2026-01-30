@@ -1,9 +1,9 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" :class="{ 'navbar-scrolled': scrolled }">
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" :class="{ 'navbar-scrolled': scrolled || !isHome }">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="#home">
+      <router-link class="navbar-brand fw-bold" to="/">
         <span class="logo-text">DUDIS</span>
-      </a>
+      </router-link>
       <button 
         class="navbar-toggler" 
         type="button" 
@@ -15,19 +15,19 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#home">Início</a>
+            <a class="nav-link" href="/#home">Início</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#services">Serviços</a>
+            <a class="nav-link" href="/#services">Serviços</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#portfolio">Portfólio</a>
+            <router-link class="nav-link" to="/portfolio">Portfólio</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#about">Sobre</a>
+            <a class="nav-link" href="/#about">Sobre</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link btn-contact" href="#contact">Contato</a>
+            <a class="nav-link btn-contact" href="/#contact">Contato</a>
           </li>
         </ul>
       </div>
@@ -36,9 +36,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 const scrolled = ref(false)
+
+const isHome = computed(() => route.path === '/')
 
 const handleScroll = () => {
   scrolled.value = window.scrollY > 50
